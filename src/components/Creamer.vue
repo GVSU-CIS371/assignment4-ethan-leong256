@@ -1,18 +1,26 @@
 <template>
   <div class="froth">
-    <div
-      v-for=" in 5"
+    <div 
+      v-for="i in 5"
+      :key="i"
       class="foam"
-      :style="{ backgroundColor: beverageStore.currentCreamer?.color }"
-    ></div>
+      :style="{
+        backgroundColor: cream.color
+        }"
+      ></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useBeverageStore } from "../stores/beverageStore";
-
-const beverageStore = useBeverageStore();
+import type { CreamerType } from '../types/beverage';
+defineProps<{
+  // defineProps declares expected props automatically 
+  // handling changes to the object
+  cream: CreamerType
+}>();
 </script>
+
+
 <style lang="scss" scoped>
 .froth {
   overflow: visible;

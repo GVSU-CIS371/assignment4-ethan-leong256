@@ -1,29 +1,30 @@
 <template>
-  <div
+  <div 
     class="syrup"
-    :style="{ '--texture-color': beverageStore.currentSyrup?.color }"
-  ></div>
+    :style="{
+      backgroundColor: syrup.color
+    }"
+  >
+  </div>
 </template>
 
 <script setup lang="ts">
-import { useBeverageStore } from "../stores/beverageStore";
-
-const beverageStore = useBeverageStore();
+import type { SyrupType } from '../types/beverage';
+defineProps<{
+  // defineProps declares expected props automatically 
+  // handling changes to the object
+  syrup: SyrupType;
+}>();
 </script>
+
 <style lang="scss" scoped>
 .syrup {
   transform: translateY(400%);
+  background-color: #c6c6c6;
   position: relative;
   width: 100%;
   height: 20%;
   animation: pour-tea 2s 1s forwards;
   z-index: 2;
-  background: repeating-linear-gradient(
-    45deg,
-    var(--texture-color),
-    var(--texture-color) 10px,
-    rgba(225, 207, 149, 1) 10px,
-    rgba(225, 207, 149, 1) 20px
-  );
 }
 </style>
