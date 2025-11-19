@@ -82,7 +82,27 @@ export const useBeverageStore = defineStore("BeverageStore", {
       this.currentBeverage = newBeverage; // set new beverage as current
 
     },
-
-    showBeverage() {},
-  },
-});
+    async fetchBeverage() {
+          const snapshot = await getDocs(collection(db, "beverages")); // get all documents from beverages collection
+          this.beverages = snapshot.docs.map(doc => { // map documents to array
+              const data = doc.data();
+              return {
+                id: doc.id, // document ID as Beverage ID
+                name: data.name,
+                temp: data.temp,
+                base: data.base,
+                creamer: data.creamer,
+                syrup: data.syrup
+              } as BeverageType;
+            });
+        },
+    showBeverage(beverages: BeverageType) { // set current selections to saved drink selections
+          this.currentBeverage = beverages;
+          this.currentBase = beverages.base;
+          this.currentCreamer =  beverages.creamer;
+          this.currentSyrup = beverages.syrup;
+          this.currentTemp = beverages.temp;
+          this.currentName = beverages.name;
+        },
+      },
+    });

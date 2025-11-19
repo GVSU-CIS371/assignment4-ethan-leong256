@@ -1,6 +1,12 @@
 <template>
   <div>
-    <Beverage :isIced="beverageStore.currentTemp === 'Cold'" />
+    <Beverage 
+      v-if="beverageStore.currentBase && beverageStore.currentCreamer && beverageStore.currentSyrup"
+      :isIced="beverageStore.currentTemp === 'cold'"
+      :base="beverageStore.currentBase"
+      :cream="beverageStore.currentCreamer"
+      :syrup="beverageStore.currentSyrup"
+    />
     <ul>
       <li>
         <template v-for="temp in beverageStore.temps" :key="temp">
@@ -65,16 +71,33 @@
         </template>
       </li>
     </ul>
-    <input type="text" placeholder="Beverage Name" />
-    <button>🍺 Make Beverage</button>
+    <input type="text" v-model="beverageStore.currentName" placeholder="Beverage Name" />
+    <button @click="beverageStore.makeBeverage()">🍺 Make Beverage</button>
   </div>
-  <div id="beverage-container" style="margin-top: 20px"></div>
+  <div v-for="bev in beverageStore.beverages" :key="bev.id" id="beverage-container" style="margin-top: 20px">
+    <label>
+      <input 
+      type="radio"
+      name="beverages"
+      :id="bev.id"
+      :value="bev"
+      v-model="beverageStore.currentBeverage"
+      @change="beverageStore.showBeverage(bev)"
+      />
+      {{ bev.name }}
+    </label>
+  </div>
 </template>
 
 <script setup lang="ts">
 import Beverage from "./components/Beverage.vue";
 import { useBeverageStore } from "./stores/beverageStore";
+import { onMounted } from "vue";
 const beverageStore = useBeverageStore();
+onMounted(async () => {
+  await beverageStore.init();
+  await beverageStore.fetchBeverage();
+})
 </script>
 
 <style lang="scss">
