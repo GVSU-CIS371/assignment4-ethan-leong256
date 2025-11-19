@@ -10,12 +10,7 @@ import db from "../firebase.ts";
 import {
   collection,
   getDocs,
-  addDoc,
-  setDoc,
-  doc,
-  QuerySnapshot,
-  QueryDocumentSnapshot,
-  onSnapshot,
+  addDoc
 } from "firebase/firestore";
 
 export const useBeverageStore = defineStore("BeverageStore", {
