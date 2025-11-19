@@ -1,3 +1,4 @@
+
 interface BaseBeverageType {
   id: string;
   name: string;
@@ -20,8 +21,8 @@ type BeverageType = {
   id: string;
   name: string;
   temp: string;
-  base: BaseBeverageType;
-  syrup: SyrupType;
-  creamer: CreamerType;
+  base: BaseBeverageType | null;
+  syrup: SyrupType | null;
+  creamer: CreamerType | null;
 };
 export type { BaseBeverageType, CreamerType, SyrupType, BeverageType};
